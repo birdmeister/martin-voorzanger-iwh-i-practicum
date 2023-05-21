@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        a(href='/') Return to the homepage
+        .form-wrapper
+            p Song name: #{name}
+            p Release date: #{releaseDate}
+            p Length: #{length}
+            p Average Rating: #{averageRating}
+            p Spotify Plays: #{spotifyPlays}
+            //- form(method="POST")
+            //-     label(for="name") Name
+            //-     input(type="text" name="name" required)
+            //-     label(for="length") Length
+            //-     input(type="text" name="length" required)
+            //-     label(for="rating") Average Rating
+            //-     input(type="text" name="rating" required)
+            //-     input(type="submit" value="Submit")
