@@ -12,7 +12,7 @@ const PRIVATE_APP_ACCESS = 'pat-eu1-b1c62847-26b2-49d5-8e05-74b051777db5';
 
 const headers = {
     Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
 }
 const objectType = "2-114418761";
 const baseURL = `https://api.hubspot.com/crm/v3/objects/${objectType}`;
@@ -42,7 +42,6 @@ app.get('/update-cobj', async (req, res) => {
         const response = await axios.get(song, { headers });
         const data = response.data;
 
-        // res.json(data);
         res.render('updates', { pageTitle: pageTitle, name: data.properties.name, releaseDate: data.properties.release_date, length: data.properties.length, averageRating: data.properties.average_rating, spotifyPlays: data.properties.spotify_plays });
 
     } catch (err) {
@@ -52,21 +51,19 @@ app.get('/update-cobj', async (req, res) => {
 
 // * Code for Route 3 goes here
 app.post('/update-cobj', async (req, res) => {
-    const update = {
+    const newSong = {
         properties: {
             "name": req.body.name,
+            "release_date": req.body.release_date,
             "length": req.body.length,
-            "average_rating": req.body.average_rating
+            "average_rating": req.body.average_rating,
+            "spotify_plays": req.body.spotify_plays,
         }
     }
 
-    const objectId = "1253467615";
-
-    const song = `${baseURL}/${objectId}`;
-
     try {
-        await axios.patch(song, update, { headers });
-        res.redirect('back');
+        await axios.post(baseURL, JSON.stringify(newSong), { headers });
+        res.redirect('/');
     } catch (err) {
         console.error(err);
     }

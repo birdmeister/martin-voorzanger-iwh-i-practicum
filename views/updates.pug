@@ -6,19 +6,16 @@ html(lang="en")
     body
         a(href='/') Return to the homepage
         .form-wrapper
-            p Song name: #{name}
-            p Release date: #{releaseDate}
-            p Length: #{length}
-            p Average Rating: #{averageRating}
-            p Spotify Plays: #{spotifyPlays}
-            br
-            strong Update song info
-            br
+            strong New song info
             form(method="POST")
-                label(for="name") New Song name:
-                input(type="text" name="name" placeholder=`${name}` required)
-                label(for="length") New Length:
-                input(type="text" name="length" placeholder=`${length}` required)
-                label(for="average_rating") New Average Rating (1-10):
-                input(type="text" name="average_rating" placeholder=`${averageRating}` required)
+                label(for="name") Song name:
+                input(type="text" name="name" required)
+                label(for="release_date") Release date:
+                input(type="date" name="release_date")
+                label(for="length") Length:
+                input(type="text" name="length")
+                label(for="average_rating") Average Rating (1-10):
+                input(type="text" name="average_rating")
+                label(for="spotify_plays") Length:
+                input(type="text" name="spotify_plays")
                 input(type="submit" value="Submit")
