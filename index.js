@@ -10,24 +10,36 @@ app.use(express.json());
 // * Please include the private app access token in your repo BUT only an access token built in a TEST ACCOUNT. Don't do this practicum in your normal account.
 const PRIVATE_APP_ACCESS = 'pat-eu1-b1c62847-26b2-49d5-8e05-74b051777db5';
 
-// TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
+const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    'Content-Type': 'application/json'
+}
+const objectType = "2-114418761";
+const baseURL = `https://api.hubspot.com/crm/v3/objects/${objectType}`;
+const properties = "name,release_date,length,average_rating,spotify_plays";
 
 // * Code for Route 1 goes here
+app.get('/', async (req, res) => {
+    const songs = `${baseURL}?properties=${properties}`
+    try {
+        const response = await axios.get(songs, { headers });
+        const data = response.data.results;
+        res.render('homepage', { title: 'Songs | HubSpot APIs', data });
+    } catch (error) {
+        console.error(error);
+    }
+
+});
 
 // * Code for Route 2 goes here
 app.get('/update-cobj', async (req, res) => {
-    const objectType = "2-114418761";
     const objectId = "1253467615";
     const pageTitle = "Update Custom Object Form | Integrating With HubSpot I Practicum";
 
-    const getSong = `https://api.hubapi.com/crm/v3/objects/${objectType}/${objectId}?properties=name,release_date,length,average_rating,spotify_plays`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
+    const song = `${baseURL}/${objectId}?properties=${properties}`
 
     try {
-        const response = await axios.get(getSong, { headers });
+        const response = await axios.get(song, { headers });
         const data = response.data;
 
         // res.json(data);
@@ -48,17 +60,12 @@ app.post('/update-cobj', async (req, res) => {
         }
     }
 
-    const objectType = "2-114418761";
     const objectId = "1253467615";
 
-    const updateSong = `https://api.hubapi.com/crm/v3/objects/${objectType}/${objectId}`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
+    const song = `${baseURL}/${objectId}`;
 
     try {
-        await axios.patch(updateSong, update, { headers });
+        await axios.patch(song, update, { headers });
         res.redirect('back');
     } catch (err) {
         console.error(err);

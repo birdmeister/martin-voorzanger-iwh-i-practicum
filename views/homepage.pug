@@ -1,0 +1,24 @@
+doctype html
+meta(charset="utf-8")
+html(lang="en")
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body    
+        h1 Custom Object Table
+        a(href='/update-cobj') Add/Update this table
+        table
+            thead 
+                th Name 
+                th Release date 
+                th Length 
+                th Average rating 
+                th Spotify plays 
+            each song in data
+                tr 
+                    td #{song.properties.name}
+                    td #{song.properties.release_date}
+                    td #{song.properties.length}
+                    td #{song.properties.average_rating}
+                    td #{song.properties.spotify_plays}
